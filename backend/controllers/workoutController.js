@@ -1,4 +1,4 @@
-const Workout = require('../models/workoutModel')
+const Workout = require('../models/WorkoutsModel')
 const mongoose = require('mongoose')
 
 // get all workouts
@@ -29,34 +29,18 @@ const getWorkout = async (req, res) => {
 
 // create a new workout
 const createWorkout = async (req, res) => {
-    const {title, weight, reps} = req.body
-
-    let emptyFields = []
-
-    if(!title) {
-        emptyFields.push('title')
-    }
-    if(!weight) {
-        emptyFields.push('weight')
-    }
-    if(!reps) {
-        emptyFields.push('reps')
-    }
-    if(emptyFields.length > 0) {
-        return res.status(400).json({ error: 'Please fill in all fields', emptyFields})
-    }
+    const user_id = req.user._id
 
     // add doc to db
     try {
-        const user_id = req.user._id
-        const workout = await Workout.create({title, weight, reps, user_id})
+        const workout = await Workout.create({exercises: [], user_id})
         res.status(200).json(workout)
     } catch(error) {
         res.status(400).json({error: error.message})
     }
 }
 
-// delete a workout
+// delete an workout
 const deleteWorkout = async (req, res) => {
     const { id } = req.params
 

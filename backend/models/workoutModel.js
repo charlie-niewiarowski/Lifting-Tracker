@@ -1,20 +1,20 @@
 const mongoose = require('mongoose')
+const Exercise = require('/models/ExerciseModel')
 
 const Schema = mongoose.Schema
 
 const workoutSchema = new Schema({
-    title: {
-        type: String,
-        required: true
+    date: {
+        type: Date,
+        required: true,
+        default: Date.now
     },
-    reps: {
-        type: Number,
-        required: true
-    },
-    weight: {
-        type: Number,
-        required: true
-    },
+    exercises: [
+        {
+            type: mongoose.Schema.Types.ObjectId,
+            ref: 'Exercise'
+        },
+    ],   
     user_id: {
         type: String,
         required: true
